@@ -5,8 +5,8 @@ from controller import CalculatorController
 class CalculatorView:
     def __init__(self, root):
         self.root = root
-        self.root.title("Simple Calculator")
-        self.root.geometry("360x520")
+        self.root.title("Calculator - Improved Version")
+        self.root.geometry("360x570")
         self.root.resizable(False, False)
         self.root.configure(bg="#f5f5f5")  # açık arka plan
 
