@@ -21,3 +21,6 @@ This project was developed for the Software Construction course.
 - Backspace
 - Keyboard input
 - Error handling
+
+## Lab 3 Update
+Factory Method pattern was applied using the ButtonFactory class.
