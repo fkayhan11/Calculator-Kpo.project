@@ -66,15 +66,9 @@ class CalculatorView:
                 if r == 4 and c == 2:
                     continue
 
-                button = tk.Button(
+                button = ButtonFactory.create_button(
                     frame,
-                    text=text,
-                    font=("Arial", 18, "bold"),
-                    bd=1,
-                    relief="solid",
-                    fg="black",
-                    bg=self.get_button_color(text),
-                    activebackground="#dcdcdc",
+                    text,
                     command=lambda t=text: self.controller.handle_input(t)
                 )
 
@@ -87,15 +81,6 @@ class CalculatorView:
     # -----------------------------
     # BUTTON COLORS
     # -----------------------------
-    def get_button_color(self, text):
-        if text in ["+", "-", "x", "/"]:
-            return "#ffcc80"  # açık turuncu
-        elif text == "=":
-            return "#81c784"  # açık yeşil
-        elif text in ["C", "⌫", "%"]:
-            return "#e0e0e0"  # gri
-        else:
-            return "#fafafa"  # beyaz
 
     # -----------------------------
     # DISPLAY UPDATE
