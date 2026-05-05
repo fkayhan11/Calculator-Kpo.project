@@ -4,8 +4,7 @@ from model import CalculatorModel
 
 class CalculatorController:
     """
-    Controller layer of the calculator.
-    Connects the model and the view.
+    CONTROLLER: Processes user input and connects View with Model
     """
 
     def __init__(self, view):
@@ -22,13 +21,11 @@ class CalculatorController:
                 self.model.input_digit(value)
 
             elif value == ".":
-               self.model.input_decimal()
+                self.model.input_decimal()
 
             elif value in ["+", "-", "/", "x"]:
-                if value == "x":
-                    self.model.set_operator("*")
-                else:
-                    self.model.set_operator(value)
+                operator = "*" if value == "x" else value
+                self.model.set_operator(operator)
 
             elif value == "=":
                 self.model.calculate()
@@ -39,35 +36,24 @@ class CalculatorController:
             elif value == "⌫":
                 self.model.backspace()
 
-
             elif value == "%":
-
                 self.model.percentage()
 
             self.update_display()
 
-        except ZeroDivisionError as error:
-            messagebox.showerror("Math Error", str(error))
-            self.model.clear()
-            self.update_display()
-
         except Exception:
-            messagebox.showerror("Input Error", "Invalid operation.")
+            messagebox.showerror("Error", "Invalid operation.")
             self.model.clear()
             self.update_display()
 
     def handle_keyboard(self, char: str):
         if char in "0123456789":
             self.handle_input(char)
-
         elif char in "+-/":
             self.handle_input(char)
-
         elif char == "*":
             self.handle_input("x")
-
         elif char == ".":
             self.handle_input(char)
-
         elif char == "%":
             self.handle_input(char)

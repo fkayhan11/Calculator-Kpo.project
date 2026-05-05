@@ -1,7 +1,9 @@
+from operations import Add, Subtract, Multiply, Divide
+
+
 class CalculatorModel:
     """
-    This class contains the calculator logic.
-    It is independent from the graphical interface.
+    MODEL: Handles all business logic and calculations
     """
 
     def __init__(self):
@@ -9,6 +11,14 @@ class CalculatorModel:
         self.first_operand = None
         self.operator = None
         self.reset_next = False
+
+        # Operations dictionary (Strategy-like)
+        self.operations = {
+            "+": Add(),
+            "-": Subtract(),
+            "*": Multiply(),
+            "/": Divide()
+        }
 
     def get_display(self) -> str:
         return self.current_input
@@ -41,10 +51,21 @@ class CalculatorModel:
 
         if len(self.current_input) > 1:
             self.current_input = self.current_input[:-1]
-            if self.current_input == "-" or self.current_input == "":
+            if self.current_input in ["", "-"]:
                 self.current_input = "0"
         else:
             self.current_input = "0"
+
+    def percentage(self):
+        current = float(self.current_input)
+        result = current / 100
+
+        if result == "Error":
+            self.current_input = "Error"
+        elif float(result).is_integer():
+            self.current_input = str(int(result))
+        else:
+            self.current_input = str(result)
 
     def set_operator(self, operator: str):
         if self.operator and not self.reset_next:
@@ -60,20 +81,16 @@ class CalculatorModel:
 
         second_operand = float(self.current_input)
 
-        if self.operator == "+":
-            result = self.first_operand + second_operand
-        elif self.operator == "-":
-            result = self.first_operand - second_operand
-        elif self.operator == "*":
-            result = self.first_operand * second_operand
-        elif self.operator == "/":
-            if second_operand == 0:
-                raise ZeroDivisionError("Cannot divide by zero.")
-            result = self.first_operand / second_operand
-        else:
-            raise ValueError("Invalid operator.")
+        operation = self.operations.get(self.operator)
 
-        if result.is_integer():
+        if not operation:
+            return
+
+        result = operation.execute(self.first_operand, second_operand)
+
+        if result == "Error":
+            self.current_input = "Error"
+        elif float(result).is_integer():
             self.current_input = str(int(result))
         else:
             self.current_input = str(result)
@@ -81,12 +98,3 @@ class CalculatorModel:
         self.first_operand = None
         self.operator = None
         self.reset_next = True
-
-        def percentage(self):
-            current = float(self.current_input)
-            result = current / 100
-
-            if result.is_integer():
-                self.current_input = str(int(result))
-            else:
-                self.current_input = str(result)
