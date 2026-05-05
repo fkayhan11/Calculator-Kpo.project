@@ -15,3 +15,9 @@ if __name__ == "__main__":
     # Buton oluşturma işlemleri doğrudan View sınıfından ayrılarak ButtonFactory sınıfına taşındı.
     # Bu sayede arayüz kodu daha sade, düzenli ve genişletilebilir hale getirildi.
     # Yeni buton türleri veya renkleri eklemek gerektiğinde yalnızca ButtonFactory üzerinde değişiklik yapmak yeterlidir.
+
+
+    # Bu labda Factory Method üretimsel tasarım kalıbı kullanıldı.
+    # Önceden hesap makinesi butonları doğrudan CalculatorView içinde oluşturuluyordu.
+    # Refactoring sonrası buton oluşturma işlemi ButtonFactory sınıfına taşındı.
+    # Böylece kod daha okunabilir, daha düzenli ve genişletilebilir hale geldi.

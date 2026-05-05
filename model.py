@@ -81,3 +81,12 @@ class CalculatorModel:
         self.first_operand = None
         self.operator = None
         self.reset_next = True
+
+        def percentage(self):
+            current = float(self.current_input)
+            result = current / 100
+
+            if result.is_integer():
+                self.current_input = str(int(result))
+            else:
+                self.current_input = str(result)

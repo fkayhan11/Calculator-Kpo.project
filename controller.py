@@ -22,7 +22,7 @@ class CalculatorController:
                 self.model.input_digit(value)
 
             elif value == ".":
-                self.model.input_decimal()
+               self.model.input_decimal()
 
             elif value in ["+", "-", "/", "x"]:
                 if value == "x":
@@ -39,14 +39,10 @@ class CalculatorController:
             elif value == "⌫":
                 self.model.backspace()
 
-            elif value == "%":
-                current = float(self.model.get_display())
-                result = current / 100
 
-                if result.is_integer():
-                    self.model.current_input = str(int(result))
-                else:
-                    self.model.current_input = str(result)
+            elif value == "%":
+
+                self.model.percentage()
 
             self.update_display()
 
