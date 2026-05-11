@@ -1,5 +1,9 @@
 from operations import Add, Subtract, Multiply, Divide
 
+from logging_decorator import LoggingDecorator
+from history_decorator import HistoryDecorator
+from file_logging_decorator import FileLoggingDecorator
+
 
 class CalculatorModel:
     """
@@ -12,12 +16,39 @@ class CalculatorModel:
         self.operator = None
         self.reset_next = False
 
-        # Operations dictionary (Strategy-like)
+        # Decorated operations using Structural Pattern (Decorator)
         self.operations = {
-            "+": Add(),
-            "-": Subtract(),
-            "*": Multiply(),
-            "/": Divide()
+            "+": FileLoggingDecorator(
+                LoggingDecorator(
+                    HistoryDecorator(
+                        Add()
+                    )
+                )
+            ),
+
+            "-": FileLoggingDecorator(
+                LoggingDecorator(
+                    HistoryDecorator(
+                        Subtract()
+                    )
+                )
+            ),
+
+            "*": FileLoggingDecorator(
+                LoggingDecorator(
+                    HistoryDecorator(
+                        Multiply()
+                    )
+                )
+            ),
+
+            "/": FileLoggingDecorator(
+                LoggingDecorator(
+                    HistoryDecorator(
+                        Divide()
+                    )
+                )
+            )
         }
 
     def get_display(self) -> str:
@@ -27,8 +58,10 @@ class CalculatorModel:
         if self.reset_next:
             self.current_input = digit
             self.reset_next = False
+
         elif self.current_input == "0":
             self.current_input = digit
+
         else:
             self.current_input += digit
 
@@ -36,6 +69,7 @@ class CalculatorModel:
         if self.reset_next:
             self.current_input = "0."
             self.reset_next = False
+
         elif "." not in self.current_input:
             self.current_input += "."
 
@@ -51,8 +85,10 @@ class CalculatorModel:
 
         if len(self.current_input) > 1:
             self.current_input = self.current_input[:-1]
+
             if self.current_input in ["", "-"]:
                 self.current_input = "0"
+
         else:
             self.current_input = "0"
 
@@ -62,8 +98,10 @@ class CalculatorModel:
 
         if result == "Error":
             self.current_input = "Error"
+
         elif float(result).is_integer():
             self.current_input = str(int(result))
+
         else:
             self.current_input = str(result)
 
@@ -86,12 +124,17 @@ class CalculatorModel:
         if not operation:
             return
 
-        result = operation.execute(self.first_operand, second_operand)
+        result = operation.execute(
+            self.first_operand,
+            second_operand
+        )
 
         if result == "Error":
             self.current_input = "Error"
+
         elif float(result).is_integer():
             self.current_input = str(int(result))
+
         else:
             self.current_input = str(result)
 
