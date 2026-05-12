@@ -19,6 +19,7 @@ class ButtonFactory:
             fg="black",
             bg=ButtonFactory.get_button_color(text),
             activebackground="#dcdcdc",
+            cursor="hand2",
             command=command
         )
         return button
