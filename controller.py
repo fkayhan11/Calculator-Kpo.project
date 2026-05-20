@@ -14,6 +14,11 @@ class CalculatorController:
 
     def update_display(self):
         self.view.set_display(self.model.get_display())
+        if hasattr(self.view, "set_operation_count"):
+            try:
+                self.view.set_operation_count(self.model.get_operation_count())
+            except Exception:
+                pass
 
     def handle_input(self, value: str):
         try:
@@ -39,10 +44,34 @@ class CalculatorController:
             elif value == "%":
                 self.model.percentage()
 
+            elif value == "√":
+                self.model.square_root()
+
+            elif value == "x²":
+                self.model.square()
+
+            elif value == "±":
+                self.model.toggle_sign()
+
+            elif value == "MC":
+                self.model.memory_clear()
+
+            elif value == "MR":
+                self.model.memory_recall()
+
+            elif value == "M+":
+                self.model.memory_add()
+
+            elif value == "M-":
+                self.model.memory_subtract()
+
             self.update_display()
 
-        except Exception:
-            messagebox.showerror("Error", "Invalid operation.")
+        except Exception as exc:
+            msg = str(exc).strip()
+            if not msg or len(msg) > 120:
+                msg = "Invalid operation."
+            messagebox.showerror("Error", msg)
             self.model.clear()
             self.update_display()
 
@@ -57,3 +86,15 @@ class CalculatorController:
             self.handle_input(char)
         elif char == "%":
             self.handle_input(char)
+        elif char in ("c", "C"):
+            self.handle_input("C")
+        elif char in ("=", "\r", "\n"):
+            self.handle_input("=")
+        elif char in ("r", "R"):
+            self.handle_input("√")
+        elif char in ("q", "Q"):
+            self.handle_input("x²")
+        elif char in ("n", "N"):
+            self.handle_input("±")
+        elif char in ("m", "M"):
+            self.handle_input("MR")

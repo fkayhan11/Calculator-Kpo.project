@@ -1,0 +1,11 @@
+{
+    "window_width": 420,
+    "window_height": 700,
+    "font_family": "Arial",
+    "font_size": 18,
+    "cursor": "hand2",
+    "theme": "Soft Pink",
+    "bg_color": "#f5f5f5",
+    "dark_bg_color": "#2b2b2b",
+    "dark_mode": false
+}

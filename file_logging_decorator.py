@@ -1,11 +1,18 @@
 from datetime import datetime
 from operation_decorator import OperationDecorator
+from history_manager import HistoryManager
+from typing import Optional
 
 
 class FileLoggingDecorator(OperationDecorator):
     """
     Saves calculation history into a log file
     """
+
+    def __init__(self, operation, symbol: str, history_manager: Optional[HistoryManager] = None):
+        super().__init__(operation)
+        self._symbol = symbol
+        self._history = history_manager or HistoryManager()
 
     def execute(self, a, b):
         result = self._operation.execute(a, b)
@@ -14,10 +21,9 @@ class FileLoggingDecorator(OperationDecorator):
 
         log_message = (
             f"{current_time} | "
-            f"{a} and {b} = {result}\n"
+            f"{a} {self._symbol} {b} = {result}\n"
         )
 
-        with open("calculator_history.txt", "a") as file:
-            file.write(log_message)
+        self._history.append_line(log_message)
 
         return result
